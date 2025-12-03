@@ -1,15 +1,16 @@
 # Cursor Rules - 团队统一规范
 
-极简规范库，3个核心文件，层次分明。
+极简规范库，3个核心文件，层次分明。所有规范统一放在 `cursor-rules/` 文件夹。
 
 ## 📦 文件说明
 
-| 文件 | 说明 | 页数 | 适用范围 |
-|------|------|------|---------|
-| `core-rules.mdc` | 核心原则 - AI工作哲学 | 2页 | 所有项目通用 |
-| `workflow-rules.mdc` | 工作流程 - 具体方法论 | 5页 | 所有项目通用 |
-| `tech-rules.mdc` | 技术规范 - 编码标准 | 3页 | 所有项目通用 |
-| `project-spec.template.mdc` | 项目规范模板 | - | 复制后改名使用 |
+| 文件 | 说明 | 适用范围 |
+|------|------|---------|
+| `core-rules.mdc` | 核心原则 - AI工作哲学 | 所有项目通用 |
+| `workflow-rules.mdc` | 工作流程 - 具体方法论 | 所有项目通用 |
+| `tech-rules.mdc` | 技术规范 - 编码标准 | 所有项目通用 |
+| `project-spec.template.mdc` | 项目规范模板（简化版） | 复制到根目录使用 |
+| `.cursorrules` | Cursor 入口文件 | 每个项目一份 |
 
 ## 📖 规范结构
 
@@ -25,49 +26,52 @@
 
 ## 🚀 使用方法
 
-### 在新项目中使用
+### 方案1：Git Submodule（推荐）
 
 ```bash
-# 1. 复制规范文件到项目根目录（或创建软链接）
-ln -s cursor-rules/core-rules.mdc .
-ln -s cursor-rules/workflow-rules.mdc .
-ln -s cursor-rules/tech-rules.mdc .
+# 1. 添加规范库为子模块
+git submodule add <repo-url> cursor-rules
 
-# 2. 复制项目规范模板
+# 2. 复制入口文件到项目根目录
+cp cursor-rules/.cursorrules .cursorrules
+
+# 3. 复制项目规范模板到根目录
 cp cursor-rules/project-spec.template.mdc project-spec.mdc
 
-# 3. 编辑项目规范
-vim project-spec.mdc  # 修改为你的项目信息
+# 4. 编辑项目规范
+vim project-spec.mdc  # 填写你的项目信息
 
-# 4. 创建 .cursorrules 入口文件
-cat > .cursorrules << 'EOF'
-# Project Name - Cursor AI Rules
-
-通用规范：
-- core-rules.mdc
-- workflow-rules.mdc
-- tech-rules.mdc
-
-项目规范：
-- project-spec.mdc
-EOF
+# 5. 更新规范时
+git submodule update --remote cursor-rules
 ```
 
-### 简化方式（直接引用）
+### 方案2：直接复制
 
 ```bash
-# 在 .cursorrules 中直接指定路径
-cat > .cursorrules << 'EOF'
-# Project Name - Cursor AI Rules
+# 1. 复制整个 cursor-rules 文件夹到项目
+cp -r cursor-rules /path/to/your/project/
 
-通用规范：
-- cursor-rules/core-rules.mdc
-- cursor-rules/workflow-rules.mdc
-- cursor-rules/tech-rules.mdc
+# 2. 复制入口文件
+cp cursor-rules/.cursorrules .cursorrules
 
-项目规范：
-- project-spec.mdc
-EOF
+# 3. 创建项目规范
+cp cursor-rules/project-spec.template.mdc project-spec.mdc
+vim project-spec.mdc
+```
+
+### 文件结构
+
+```
+your-project/
+├── cursor-rules/           # 规范文件夹（submodule 或复制）
+│   ├── .cursorrules       # Cursor 入口文件（需复制到根目录）
+│   ├── core-rules.mdc
+│   ├── workflow-rules.mdc
+│   ├── tech-rules.mdc
+│   └── project-spec.template.mdc
+├── .cursorrules           # 复制自 cursor-rules/.cursorrules
+├── project-spec.mdc       # 复制自 template 并编辑
+└── ...
 ```
 
 ## 📝 规范内容
@@ -118,8 +122,9 @@ git tag v2.0.0 -m "重构：按层次划分为3个文件"
 
 1. **通用规范不要改** - core-rules.mdc、workflow-rules.mdc、tech-rules.mdc 保持一致
 2. **项目规范独立维护** - 每个项目的 project-spec.mdc 自己维护
-3. **定期同步更新** - 规范有更新时，及时同步到各项目
-4. **理解层次关系** - 核心原则 → 工作流程 → 技术规范，层层递进
+3. **入口文件放根目录** - .cursorrules 必须在项目根目录，Cursor 才能识别
+4. **定期同步更新** - 规范有更新时，及时同步到各项目
+5. **理解层次关系** - 核心原则 → 工作流程 → 技术规范，层层递进
 
 ## 🆚 v2.0 重构说明
 
