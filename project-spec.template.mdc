@@ -1,28 +1,28 @@
 # [项目名] - 项目规范
 
-> **本文档是项目特定规范模板**，复制到项目根目录并重命名为 `project-spec.mdc`
+> **项目特定规范模板** - 复制到项目根目录并重命名为 `project-spec.mdc`
 
 **项目名称**: [项目名称]  
-**项目类型**: [Web应用/API服务/移动应用]  
-**技术栈**: [主要技术栈]
+**项目类型**: [类型]  
+**主要技术**: [技术栈]
 
 ---
 
 ## 🔧 技术栈
 
-### 前端
-- **框架**: [React 18 / Vue 3 / Next.js]
-- **语言**: TypeScript
-- **样式**: [TailwindCSS / CSS Modules]
-- **状态管理**: [Redux / Zustand / Pinia]
-- **构建工具**: [Vite / Webpack]
+[根据项目实际情况填写，可以是前后端分离、单体应用、微服务等任何架构]
 
-### 后端
-- **框架**: [Express / Nest.js / Koa]
-- **语言**: TypeScript / Node.js
-- **数据库**: [MySQL / PostgreSQL / MongoDB]
-- **ORM**: [Sequelize / TypeORM / Prisma]
-- **缓存**: Redis（可选）
+```
+示例1（前后端分离）：
+- 前端: React 18 + TypeScript + Vite
+- 后端: Nest.js + MySQL + Redis
+
+示例2（全栈应用）：
+- Next.js 14 + TypeScript + PostgreSQL
+
+示例3（移动端）：
+- React Native + TypeScript + Expo
+```
 
 ---
 
@@ -30,25 +30,28 @@
 
 ### 环境地址
 
-| 环境 | 前端 | 后端 |
+| 环境 | 地址 | 说明 |
 |------|------|------|
-| Local | http://localhost:3000 | http://localhost:8000 |
-| Dev | https://dev.example.com | https://api-dev.example.com |
-| Production | https://example.com | https://api.example.com |
+| Local | [本地地址] | 本地开发环境 |
+| Dev | [开发环境地址] | 开发/测试环境 |
+| Production | [生产环境地址] | 正式环境 |
 
-### 启动命令
+### 启动方式
 
 ```bash
-# 前端
+# 填写项目的启动命令
 npm run dev
 
-# 后端
-npm run dev
+# 或其他命令...
 ```
 
-### 包管理器
-- 前端: [pnpm / npm / yarn]
-- 后端: [npm / yarn]
+### 环境变量
+
+```bash
+# 列出关键的环境变量（不要写实际值）
+DATABASE_URL=
+API_KEY=
+```
 
 ---
 
@@ -56,25 +59,29 @@ npm run dev
 
 | 角色 | 账号 | 密码 | 权限 |
 |------|------|------|------|
-| 管理员 | admin | 123456 | 所有功能 |
-| 普通用户 | user | 123456 | 基础功能 |
+| [角色1] | [账号] | [密码] | [权限说明] |
+| [角色2] | [账号] | [密码] | [权限说明] |
 
 ---
 
 ## 💼 业务规则
 
+### 核心业务逻辑
+
+[描述项目的核心业务规则，让 AI 理解业务逻辑]
+
+**示例**：
+- 用户注册需要邮箱验证
+- 订单支付后15分钟内可取消
+- 管理员可以查看所有数据
+
 ### 角色权限
-- **管理员**: [权限描述]
-- **编辑**: [权限描述]
-- **查看者**: [权限描述]
 
-### 核心业务流程
-1. **[流程1]**: [简要描述]
-2. **[流程2]**: [简要描述]
+[如果有权限系统，说明各角色的权限范围]
 
-### 关键业务规则
-- [规则1]
-- [规则2]
+### 关键业务流程
+
+[描述重要的业务流程，可以用流程图或文字]
 
 ---
 
@@ -82,75 +89,99 @@ npm run dev
 
 ### 核心数据模型
 
+[列出项目的核心数据模型，帮助 AI 理解数据关系]
+
 ```typescript
-// User（用户）
+// 根据项目实际语言填写
+// 示例：
+
 interface User {
   id: string;
   username: string;
   email: string;
-  role: 'admin' | 'user';
   createdAt: Date;
-  updatedAt: Date;
 }
 
-// 其他核心模型...
+// ... 其他模型
 ```
 
-### 数据关联关系
+### 数据关系
+
+[如果数据模型之间有关联，简单描述]
 
 ```
-User
-  ├─ hasMany → Posts
-  └─ hasMany → Comments
+示例：
+User (用户)
+  ├─ hasMany → Orders (订单)
+  └─ hasMany → Comments (评论)
 ```
 
 ---
 
-## 🔌 API规范
+## 🔌 API 规范
 
 ### 认证方式
-```bash
-Authorization: Bearer <token>
+
+[说明 API 如何认证]
+
+```
+示例：
+- JWT Token: Authorization: Bearer <token>
+- API Key: X-API-Key: <key>
+- Session: Cookie-based
 ```
 
 ### 响应格式
+
+[统一的 API 响应格式]
+
 ```typescript
+// 示例
 interface ApiResponse<T> {
   success: boolean;
   data?: T;
-  error?: {
-    code: string;
-    message: string;
-  };
+  error?: string;
 }
 ```
 
 ### 核心接口
 
-| 接口 | 方法 | 路径 | 说明 |
+[列出关键的 API 接口]
+
+| 功能 | 方法 | 路径 | 说明 |
 |------|------|------|------|
-| 登录 | POST | `/api/auth/login` | 用户登录 |
-| 用户列表 | GET | `/api/users` | 获取用户列表 |
+| [功能1] | GET/POST | `/api/...` | [说明] |
+| [功能2] | GET/POST | `/api/...` | [说明] |
 
 ---
 
 ## 📝 项目特定注意事项
 
-1. **[注意事项1]**: [描述]
-2. **[注意事项2]**: [描述]
+[记录项目特有的规则、约定、限制等]
+
+**示例**：
+- 所有时间统一使用 UTC
+- 文件上传限制 10MB
+- API 调用频率限制 100次/分钟
 
 ---
 
 ## 🔗 相关链接
 
 - 代码仓库: [URL]
-- API文档: [URL]
+- 文档/Wiki: [URL]
 - 设计稿: [URL]
+- API 文档: [URL]
 
 ---
 
-**使用说明**：
+## 📌 使用说明
+
 1. 复制此文件到项目根目录
 2. 重命名为 `project-spec.mdc`
-3. 填写所有 [占位符] 内容
-4. 删除不需要的章节
+3. 删除所有示例内容
+4. 填写项目实际信息
+5. 删除不需要的章节
+6. 章节可以根据项目需要自由增删
+
+**提示**：这是给 AI 看的文档，写清楚核心信息即可，不需要面面俱到。
