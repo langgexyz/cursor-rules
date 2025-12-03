@@ -9,8 +9,9 @@
 | `core-rules.mdc` | 核心原则 - AI工作哲学 | 所有项目通用 |
 | `workflow-rules.mdc` | 工作流程 - 具体方法论 | 所有项目通用 |
 | `tech-rules.mdc` | 技术规范 - 编码标准 | 所有项目通用 |
-| `project-spec.template.mdc` | 项目规范模板（简化版） | 复制到根目录使用 |
+| `project-spec.template.mdc` | 项目规范模板（抽象框架） | 复制到根目录使用 |
 | `.cursorrules` | Cursor 入口文件 | 每个项目一份 |
+| `init.sh` | 🆕 一键初始化脚本 | 快速配置规范 |
 
 ## 📖 规范结构
 
@@ -24,38 +25,51 @@
 项目规范（project-spec.mdc）
 ```
 
-## 🚀 使用方法
+## 🚀 快速开始
 
-### 方案1：Git Submodule（推荐）
+### 🎯 一键初始化（推荐）
+
+```bash
+# 方式1：在项目根目录执行
+bash cursor-rules/init.sh
+
+# 方式2：进入 cursor-rules 文件夹执行
+cd cursor-rules && bash init.sh
+```
+
+脚本会自动：
+1. 复制 `.cursorrules` 到项目根目录
+2. 复制 `project-spec.template.mdc` 为 `project-spec.mdc`
+3. 如果文件已存在，会提示是否覆盖
+
+### 📦 安装到新项目
+
+#### 方案1：Git Submodule（推荐）
 
 ```bash
 # 1. 添加规范库为子模块
 git submodule add <repo-url> cursor-rules
 
-# 2. 复制入口文件到项目根目录
-cp cursor-rules/.cursorrules .cursorrules
+# 2. 运行初始化脚本
+bash cursor-rules/init.sh
 
-# 3. 复制项目规范模板到根目录
-cp cursor-rules/project-spec.template.mdc project-spec.mdc
-
-# 4. 编辑项目规范
+# 3. 编辑项目规范
 vim project-spec.mdc  # 填写你的项目信息
 
-# 5. 更新规范时
+# 4. 更新规范时
 git submodule update --remote cursor-rules
 ```
 
-### 方案2：直接复制
+#### 方案2：直接复制
 
 ```bash
 # 1. 复制整个 cursor-rules 文件夹到项目
 cp -r cursor-rules /path/to/your/project/
 
-# 2. 复制入口文件
-cp cursor-rules/.cursorrules .cursorrules
+# 2. 运行初始化脚本
+bash cursor-rules/init.sh
 
-# 3. 创建项目规范
-cp cursor-rules/project-spec.template.mdc project-spec.mdc
+# 3. 编辑项目规范
 vim project-spec.mdc
 ```
 
