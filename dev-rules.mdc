@@ -12,7 +12,7 @@
 
 排查bug时，不能直接猜测或跳跃式分析，必须通过实际验证来逐步确定问题出在哪一层。
 
-### ❌ 禁止的错误模式
+### 禁止的错误模式
 
 ```
 用户：X功能有bug
@@ -22,7 +22,7 @@ AI：我觉得可能是Y的问题（未验证）
 结果：方案基于猜测，可能南辕北辙
 ```
 
-### ✅ 正确的排查流程
+### 正确的排查流程
 
 ```
 用户：X功能有bug
@@ -32,13 +32,13 @@ AI：
   3. 逐层验证：从最底层开始验证
   
      验证1：DB层 - 查询数据库，数据是否存在？
-     结论1：✅ 数据存在 / ❌ 数据缺失
+     结论1：[数据存在] / [数据缺失]
      
      验证2：API层 - 调用接口，能否正确返回？
-     结论2：✅ 接口正常 / ❌ 接口异常
+     结论2：[接口正常] / [接口异常]
      
      验证3：前端层 - 查看页面，数据是否显示？
-     结论3：✅ 显示正常 / ❌ 显示异常
+     结论3：[显示正常] / [显示异常]
   
   4. 定位问题：根据验证结果，明确指出问题在哪一层
   5. 分析原因：阅读相关代码，找出根本原因
@@ -68,13 +68,13 @@ const mysql = require('mysql2/promise');
 **输出格式**：
 ```
 ═══════════════════════════════════════
-🔍 第1步：DB层验证
+【第1步：DB层验证】
 ═══════════════════════════════════════
 查询：SELECT * FROM users WHERE id = '123'
-结果：✅ 找到 1 条记录
+结果：找到 1 条记录
 [显示数据表格]
 
-结论：DB层数据正常 ✓
+结论：DB层数据正常
 ═══════════════════════════════════════
 ```
 
@@ -92,14 +92,14 @@ curl --max-time 5 \
 **输出格式**：
 ```
 ═══════════════════════════════════════
-🔍 第2步：API层验证
+【第2步：API层验证】
 ═══════════════════════════════════════
 请求：GET /api/users/123
 响应：{"success": true, "data": {...}}
 
 结论：
-- DB层：✅ 数据存在
-- API层：✅ 接口正常返回
+- DB层：数据存在
+- API层：接口正常返回
 
 问题范围缩小至：前端层
 ═══════════════════════════════════════
@@ -125,12 +125,12 @@ console.log('前端状态:', {
 全链路：浏览器 → 前端代码 → API请求 → 后端代码 → 数据库
 
 第1次验证：检查数据库
-  - ✅ 数据存在 → 问题在上层
-  - ❌ 数据不存在 → 问题定位：数据写入逻辑
+  - [数据存在] → 问题在上层
+  - [数据不存在] → 问题定位：数据写入逻辑
 
 第2次验证：检查API
-  - ✅ API正常 → 问题在前端
-  - ❌ API异常 → 问题在后端
+  - [API正常] → 问题在前端
+  - [API异常] → 问题在后端
 
 第3次验证：检查前端
   - 找到具体的文件、函数、代码行
@@ -153,7 +153,7 @@ console.log('前端状态:', {
 **验证环节**
 - [ ] 每个假设都通过实际验证
 - [ ] 验证结果以结构化格式输出
-- [ ] 使用 ✅/❌ 明确标注验证结论
+- [ ] 使用 [通过]/[失败] 明确标注验证结论
 - [ ] 每次验证后说明当前问题范围
 
 **分析环节**
@@ -173,25 +173,25 @@ console.log('前端状态:', {
 
 1. **禁止 `any`**
    ```typescript
-   // ❌ 错误
+   // 错误示例
    function handleData(data: any) { ... }
    
-   // ✅ 正确
+   // 正确示例
    function handleData(data: UserData) { ... }
    ```
 
 2. **函数必须声明类型**
    ```typescript
-   // ❌ 错误
+   // 错误示例
    function calculate(a, b) { return a + b; }
    
-   // ✅ 正确
+   // 正确示例
    function calculate(a: number, b: number): number { return a + b; }
    ```
 
 3. **使用 `unknown` 代替 `any`**
    ```typescript
-   // ✅ 需要类型守卫
+   // 正确示例：需要类型守卫
    function processData(data: unknown) {
      if (typeof data === 'string') {
        return data.toUpperCase();
@@ -201,7 +201,7 @@ console.log('前端状态:', {
 
 4. **充分利用泛型**
    ```typescript
-   // ✅ 保持类型安全
+   // 正确示例：保持类型安全
    function fetchData<T>(url: string): Promise<ApiResponse<T>> { ... }
    ```
 
@@ -218,6 +218,8 @@ console.log('前端状态:', {
 
 ## React 开发规范
 
+**注意**：本节适用于前端 React 项目，后端项目可跳过。
+
 ### 组件规范
 
 **组件命名**：
@@ -227,7 +229,7 @@ console.log('前端状态:', {
 
 **Props 类型**：
 ```typescript
-// ✅ 定义清晰的 Props 接口
+// 正确示例：定义清晰的 Props 接口
 interface UserCardProps {
   user: User;
   onEdit?: (id: string) => void;
@@ -243,13 +245,13 @@ const UserCard: React.FC<UserCardProps> = ({ user, onEdit, className }) => {
 
 **useState**：
 ```typescript
-// ✅ 明确类型
+// 正确示例：明确类型
 const [user, setUser] = useState<User | null>(null);
 ```
 
 **useEffect**：
 ```typescript
-// ✅ 明确依赖项
+// 正确示例：明确依赖项
 useEffect(() => {
   fetchData();
 }, [userId]); // 依赖项清晰
@@ -257,7 +259,7 @@ useEffect(() => {
 
 **自定义 Hook**：
 ```typescript
-// ✅ 返回类型明确
+// 正确示例：返回类型明确
 function useUser(id: string): { user: User | null; loading: boolean; error: Error | null } {
   // ...
   return { user, loading, error };
@@ -289,7 +291,7 @@ function useUser(id: string): { user: User | null; loading: boolean; error: Erro
 ### 响应格式
 
 ```typescript
-// ✅ 统一的响应格式
+// 正确示例：统一的响应格式
 interface ApiResponse<T> {
   success: boolean;
   data?: T;
@@ -303,7 +305,7 @@ interface ApiResponse<T> {
 ### 错误处理
 
 ```typescript
-// ✅ 统一的错误码
+// 正确示例：统一的错误码
 enum ErrorCode {
   UNAUTHORIZED = 'UNAUTHORIZED',
   NOT_FOUND = 'NOT_FOUND',
@@ -319,7 +321,7 @@ enum ErrorCode {
 ### 单元测试
 
 ```typescript
-// ✅ 清晰的测试用例
+// 正确示例：清晰的测试用例
 describe('UserService', () => {
   describe('createUser', () => {
     it('should create user with valid data', async () => {
@@ -378,7 +380,7 @@ describe('UserService', () => {
 ### 输入验证
 
 ```typescript
-// ✅ 服务端必须验证所有输入
+// 正确示例：服务端必须验证所有输入
 @Post('/users')
 @Validate()
 async createUser(@Body() userData: CreateUserDTO) {
@@ -389,7 +391,7 @@ async createUser(@Body() userData: CreateUserDTO) {
 ### 认证授权
 
 ```typescript
-// ✅ 使用装饰器进行权限控制
+// 正确示例：使用装饰器进行权限控制
 @Get('/admin/users')
 @UseGuard(AuthGuard)
 @RequireRole('admin')
